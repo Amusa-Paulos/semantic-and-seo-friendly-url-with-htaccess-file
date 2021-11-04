@@ -1,0 +1,32 @@
+# https://httpd.apache.org/docs/2.4/howto/htaccess.html - .htaccess Documentation
+# https://httpd.apache.org/docs/2.4/mod/mod_rewrite.html - Mod Rewrite Documentation
+# https://httpd.apache.org/docs/2.4/mod/core.html#ifmodule - If Module Documentation
+# https://httpd.apache.org/docs/current/mod/core.html#options - Options Documentation
+# MDN Documentation
+# https://developer.mozilla.org/en-US/docs/Learn/Server-side/Apache_Configuration_htaccess
+
+# mod_rewrite
+# directive
+# perl like regexp
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  <IfModule mod_negotiation.c>
+    # Options +SymLinksIfOwnerMatch 
+    Options -MultiViews
+  </IfModule>
+
+
+  RewriteCond %{THE_REQUEST} \ /+(.*?/?)home\.(php|html)
+  RewriteRule ^(.*)home\.(php|html?)$ /$1 [L,R=301]
+  DirectoryIndex home.php
+
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}\.php -f
+
+  RewriteRule ^(.*)$ $1.php
+
+  # 0-9
+  RewriteRule ^another-page/([0-9A-Za-z\-_]+)/([0-9]+)/([0-9]+) another-page.php?post-str=$1&post-month=$2&post-year=$3 [NC,L]
+
+
+</IfModule>
